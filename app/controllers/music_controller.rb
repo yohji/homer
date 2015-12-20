@@ -1,5 +1,5 @@
 class MusicController < ApplicationController
-	include FilesystemService
+	include FilesystemHelper
 
 	def show
 

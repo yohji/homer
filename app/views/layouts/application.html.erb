@@ -11,27 +11,26 @@
 
 	<div data-role="page" id="page">
 	
-		<div data-role="header">
-		    
+		<div data-role="header" data-position="fixed">
 		    <div data-role="navbar">
 		        <ul>
 					<li>
-						<a href="/download">
+						<a href="/download" data-transition="flip">
 						<%= image_tag("download.png", size: "32x32") %>
 						</a>
 					</li>
 		            <li>
-						<a href="/transmission">
+						<a href="/transmission" data-transition="flip">
 						<%= image_tag("transmission.png", size: "32x32") %>
 						</a>
 					</li>
 					<li>
-						<a href="/movie">
+						<a href="/movie" data-transition="flip">
 						<%= image_tag("movie.png", size: "32x32") %>
 						</a>
 					</li>
 					<li>
-						<a href="/music">
+						<a href="/music" data-transition="flip">
 						<%= image_tag("music.png", size: "32x32") %>
 						</a>
 					</li>
@@ -39,12 +38,12 @@
 		    </div><!-- /navbar -->
 		</div><!-- /header -->
 	
-		<div role="main" class="ui-content">
+		<div data-role="content" role="main" class="ui-content">
 			<%= yield %>
 		</div><!-- /content -->
 	
 		<div data-role="footer">
-			<h4>Homer - Copyright (c) 2015 Marco Merli</h4>
+			<h4>Homer - Copyright &copy; 2015 Marco Merli</h4>
 		</div><!-- /footer -->
 		
 	</div><!-- /page -->

@@ -1,7 +1,5 @@
-load "filesystem_service.rb"
-
 class DownloadController < ApplicationController
-	include FilesystemService
+	include FilesystemHelper
 
 	def show
 

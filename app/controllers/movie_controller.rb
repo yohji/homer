@@ -1,5 +1,5 @@
 class MovieController < ApplicationController
-	include FilesystemService
+	include FilesystemHelper
 
 	def show
 

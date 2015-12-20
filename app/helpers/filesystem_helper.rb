@@ -1,6 +1,6 @@
 require 'find'
 
-module FilesystemService
+module FilesystemHelper
 
 	def list(path, ext = "")
 
