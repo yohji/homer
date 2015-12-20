@@ -1,6 +1,23 @@
 <ul data-role="listview" data-filter="true" data-filter-placeholder="Search..." data-inset="true">
 
+	<% path = params[:path] 
+	if path != nil %>
+		<li data-role="list-divider" data-theme="b"><%= params[:path] %>
+			<a href="#" data-rel="back" class="ui-link ui-btn-rigth ui-btn ui-shadow ui-corner-all" data-role="button" role="button">Back</a>
+		</li>
+	<% end %>
+
 	<% @data.each do |res| %>
-	    <li><a href="#"><%= res.name %></a></li>
+		
+		<% is_dir = res.directory? %>
+	    <li <%= ! is_dir ? "data-icon=gear" : "" %>>
+	
+			<a href="<%= is_dir ? '/download?path=' + res.absolute : '#' %>" 
+				class="<%= ! is_dir ? 'disabled' : '' %>"><%= res.name %>
+			<% if ! is_dir %>
+				<span class="ui-li-count"><%= number_to_human_size(res.size) %></span>
+			<% end %>
+			</a>
+		</li>
 	<% end %>
 </ul>

@@ -26,3 +26,8 @@
 	background-color: #f2dede;
 	border-color: #ebccd1;
 }
+
+a.disabled {
+   pointer-events: none;
+   cursor: default;
+}

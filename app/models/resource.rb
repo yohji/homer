@@ -4,7 +4,9 @@ class Resource
 
 	def initialize(filename, path)
 		
-		@absolute = filename
+		@absolute = filename.dup
+		@stat = File.stat(@absolute)
+
 		@path = path
 		filename.slice!(path + "/")
 		@name = filename
@@ -18,5 +20,9 @@ class Resource
 	def directory?
 		
 		File.directory?(@absolute)
+	end
+	
+	def size
+		@stat.size
 	end
 end

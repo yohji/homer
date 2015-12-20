@@ -3,6 +3,6 @@ class MovieController < ApplicationController
 
 	def show
 
-		@data = list(APP_CONFIG["locations"]["movie"], ".{avi,mp4,mkv}")
+		@data = list(APP_CONFIG["locations"]["movie"])
 	end
 end
