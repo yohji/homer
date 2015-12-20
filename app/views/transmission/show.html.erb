@@ -1,0 +1,22 @@
+<iframe src="<%= APP_CONFIG['transmission'] %>" width="497" height="298" seamless></iframe>
+
+<script>
+
+	function resize() {
+	
+	    $("iframe")
+	        .attr("width", $(window).width() - 45)
+	        .attr("height", $(window).height() - 45);
+	}
+
+	$(document).on("pageinit", function() {
+	
+	    resize();
+	        
+		$(window).on("orientationchange", function(event) {
+		
+			resize();
+		});
+	});
+
+</script>

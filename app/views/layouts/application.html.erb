@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Homer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
+</head>
+<body>
+
+	<div data-role="page" id="page">
+	
+		<div data-role="header">
+		    
+		    <div data-role="navbar">
+		        <ul>
+					<li>
+						<a href="/download">
+						<%= image_tag("download.png", size: "32x32") %>
+						</a>
+					</li>
+		            <li>
+						<a href="/transmission">
+						<%= image_tag("transmission.png", size: "32x32") %>
+						</a>
+					</li>
+					<li>
+						<a href="/movie">
+						<%= image_tag("movie.png", size: "32x32") %>
+						</a>
+					</li>
+					<li>
+						<a href="/music">
+						<%= image_tag("music.png", size: "32x32") %>
+						</a>
+					</li>
+		        </ul>
+		    </div><!-- /navbar -->
+		</div><!-- /header -->
+	
+		<div role="main" class="ui-content">
+			<%= yield %>
+		</div><!-- /content -->
+	
+		<div data-role="footer">
+			<h4>Homer - Copyright (c) 2015 Marco Merli</h4>
+		</div><!-- /footer -->
+		
+	</div><!-- /page -->
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+transmission: "http://192.168.1.10:9091/transmission"
+
+users:
+  - username: "yohji"
+    password: "123qwe"  
+
+locations:
+  download: "/tmp"
+  movie: "/tmp"
+  music: "/tmp"

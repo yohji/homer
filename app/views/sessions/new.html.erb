@@ -1,0 +1,22 @@
+<div>
+	<% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+    <%= form_for(:session, url: login_path) do |f| %>
+
+		<div class="ui-field-contain">
+	      <%= f.label :username %>
+	      <%= f.text_field :username, "data-clear-btn" => "true" %>
+		</div>
+	
+		<div class="ui-field-contain">
+	      <%= f.label :password %>
+	      <%= f.password_field :password, "data-clear-btn" => "true" %>
+	    </div>
+
+		<div class="ui-input-btn ui-btn ui-corner-all">
+      		<%= f.submit "Log in" %>
+      	</div>
+
+    <% end %>
+</div>	
