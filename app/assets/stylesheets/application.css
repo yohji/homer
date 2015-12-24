@@ -31,3 +31,7 @@ a.disabled {
 	pointer-events: none;
 	cursor: default;
 }
+
+.directory {
+	color: #34c !important;
+}
