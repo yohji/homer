@@ -3,6 +3,16 @@ class MusicController < ApplicationController
 
 	def show
 
-		@data = list(APP_CONFIG["locations"]["music"], "")
+		path = params[:path]
+		loc = APP_CONFIG["locations"]["music"]
+
+		if (path == nil)
+			path = loc
+
+		elsif (! path.start_with?(loc))
+			raise "Illegal access"
+		end
+
+		@data = list(path)
 	end
 end

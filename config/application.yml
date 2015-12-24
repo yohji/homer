@@ -8,3 +8,4 @@ locations:
   download: "/tmp"
   movie: "/tmp"
   music: "/tmp"
+  iso: "/tmp"

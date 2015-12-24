@@ -1,25 +1,3 @@
-<ul data-role="listview" data-filter="true" data-filter-placeholder="Search..." data-inset="true">
-
-	<% path = params[:path] 
-	if path != nil %>
-		<li data-role="list-divider" data-theme="b">
-			<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left"><%= path %></a>
-		</li>
-	<% end %>
-
-	<% @data.each do |res| %>
-
-		<% is_dir = res.directory? %>
-		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-
-			<a <%= is_dir ? 'href=/download?path=' + res.absolute : 'href=#' %>
-				<%= ! is_dir ? 'class=disabled' : '' %>>
-					<%= res.name %>
-					<% if ! is_dir %>
-					<span class="ui-li-count"><%= number_to_human_size(res.size) %></span>
-				<% end %>
-			</a>
-
-		</li>
-	<% end %>
+<ul data-role="listview" data-inset="true">
+	<%= render :partial => "/layouts/filesystem", locals: {route: "download"} %>
 </ul>

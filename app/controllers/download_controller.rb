@@ -4,12 +4,12 @@ class DownloadController < ApplicationController
 	def show
 
 		path = params[:path]
-		download = APP_CONFIG["locations"]["download"]
+		loc = APP_CONFIG["locations"]["download"]
 
 		if (path == nil)
-			path = download
+			path = loc
 
-		elsif (! path.start_with?(download))
+		elsif (! path.start_with?(loc))
 			raise "Illegal access"
 		end
 
