@@ -1,5 +1,3 @@
-require 'find'
-
 module FilesystemHelper
 
 	def list(path, ext = "")

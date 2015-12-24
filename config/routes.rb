@@ -1,16 +1,14 @@
 Rails.application.routes.draw do
 
-  get 'iso/show'
+	root 'filesystem#download'
 
-	root 'download#show'
-
-	get 'download'     => 'download#show'
+	get 'download'     => 'filesystem#download'
+	get 'movie'        => 'filesystem#movie'
+	get 'music'        => 'filesystem#music'
+	get 'iso'          => 'filesystem#iso'
 	get 'transmission' => 'transmission#show'
-	get 'movie'        => 'movie#show'
-	get 'music'        => 'music#show'
-	get 'iso'          => 'iso#show'
 
-	get  'login'  => 'sessions#new'
+	get  'login'  => 'sessions#show'
 	post 'login'  => 'sessions#create'
 	get  'logout' => 'sessions#destroy'
 

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
 	def check_login
 
-		if (request.env['PATH_INFO'] != "/login" && ! logged_in?)
+		if (! logged_in? && request.env['PATH_INFO'] != "/login")
 			redirect_to login_path
 		end
 	end

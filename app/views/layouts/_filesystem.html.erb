@@ -1,20 +1,20 @@
-<% path = params[:path] 
-if path != nil %>
-	<a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left"><%= path %></a>
-<% end %>
+<% 
+path = params[:path]
+autodiv = (path != nil) ? false : autodiv
+%>
 
-<% @data.each do |res| %>
+<ul data-role="listview" data-inset="true" data-filter="<%= filter %>" data-autodividers="<%= autodiv %>">
 
-	<% is_dir = res.directory? %>
-	<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
+	<% if path != nil %>
+		<a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left"><%= path %></a>
+	<% end %>
 
-		<a <%= is_dir ? 'href=/%s?path=%s' % [route, res.absolute] : 'href=#' %>
-			<%= ! is_dir ? 'class=disabled' : '' %>>
-				<%= res.name %>
-				<% if ! is_dir %>
-				<span class="ui-li-count"><%= number_to_human_size(res.size) %></span>
-			<% end %>
-		</a>
-
-	</li>
-<% end %>
+	<% @data.each do |res| %>
+		<% is_dir = res.directory? %>
+		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
+			<a <%= is_dir ? "href=/%s?path=%s" % [route, res.absolute] : "href=#" %>>
+				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
+			</a>
+		</li>
+	<% end %>
+</ul>
