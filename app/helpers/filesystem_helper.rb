@@ -1,6 +1,8 @@
+require 'fileutils'
+
 module FilesystemHelper
 
-	def list(path, ext = "")
+	def resources(path, ext = "")
 
 		resources = []
 
@@ -9,5 +11,15 @@ module FilesystemHelper
 		end
 		
 		return resources.sort
+	end
+	
+	def expand(path)
+		
+		return File.expand_path("..", path)
+	end
+	
+	def rm(path)
+		
+		FileUtils.rm_rf(path)
 	end
 end

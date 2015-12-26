@@ -2,12 +2,17 @@ Rails.application.routes.draw do
 
 	root 'filesystem#download'
 
+	# Pages
 	get 'download'     => 'filesystem#download'
 	get 'movie'        => 'filesystem#movie'
 	get 'music'        => 'filesystem#music'
 	get 'iso'          => 'filesystem#iso'
 	get 'transmission' => 'transmission#show'
+	
+	# Functions
+	get  'delete'      => 'filesystem#delete'
 
+	# Session
 	get  'login'  => 'sessions#show'
 	post 'login'  => 'sessions#create'
 	get  'logout' => 'sessions#destroy'

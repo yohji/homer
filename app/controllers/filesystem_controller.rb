@@ -20,6 +20,15 @@ class FilesystemController < ApplicationController
 		
 		@data = prepare("iso")
 	end
+	
+	def delete
+		
+		path = params[:path]
+		rm(path)
+
+		params[:path] = expand(path)
+		redirect_to eval("%s_path" % [params[:route]])
+	end
 
 	private
 
@@ -35,6 +44,6 @@ class FilesystemController < ApplicationController
 			raise "Illegal access"
 		end
 
-		return list(path)
+		return resources(path)
 	end
 end
