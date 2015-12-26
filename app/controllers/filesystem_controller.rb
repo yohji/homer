@@ -24,9 +24,17 @@ class FilesystemController < ApplicationController
 	def delete
 		
 		path = params[:path]
+		loc = APP_CONFIG["locations"][params[:route]]
+		if (! path.start_with?(loc))
+			raise "Illegal access"
+		end
+		
+		if (File.directory?(path))
+			params[:path] = expand(path)
+		end
+		
 		rm(path)
 
-		params[:path] = expand(path)
 		redirect_to eval("%s_path" % [params[:route]])
 	end
 

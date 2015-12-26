@@ -9,28 +9,37 @@ autodiv = (path != nil) ? false : autodiv
 		<div data-role="controlgroup" data-type="horizontal">
 			<a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left">&nbsp;</a>
 			<a href="#" class="disabled ui-btn ui-btn-b ui-corner-all"><%= path %></a>
-			<a href="#" id="openDeletePath" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">&nbsp;</a>
+			<a href="#popupDeletePath" data-rel="popup" data-position-to="window" data-transition="pop" 
+			   class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">&nbsp;</a>
 		</div>
 	<% end %>
 
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <%= is_dir ? "href=/%s?path=%s" % [route, res.absolute] : "href=#" %>>
+			<a <%= is_dir ? "href=/%s?path=%s" % [route, res.absolute] : "href=#popupActionFile data-rel=popup data-transition=pop" %>>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
 		</li>
 	<% end %>
 </ul>
 
+<div data-role="popup" id="popupActionFile" data-theme="b">
+	<ul data-role="listview" data-inset="true" style="min-width:210px;">
+		<li data-role="list-divider">Action</li>
+		<li><a href="#">Info</a></li>
+		<li><a href="#">Move</a></li>
+		<li><a href="#">Delete</a></li>
+	</ul>
+</div>
+
 <div data-role="popup" id="popupDeletePath" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
 	<div data-role="header" data-theme="a">
-		<h1>Delete?</h1>
+		<h1>Delete</h1>
 	</div>
 	<div role="main" class="ui-content">
-		<h3 class="ui-title"><%= path %></h3>
-		<a href="#" id="closeDeletePath" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Cancel</a>
+		<h3 class="ui-title">Delete <%= path %> ?</h3>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
 		<a href="/delete?route=<%= route %>&path=<%= path %>" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
 	</div>
 </div>
-	
