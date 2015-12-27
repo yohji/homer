@@ -17,12 +17,23 @@ autodiv = (path != nil) ? false : autodiv
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <%= is_dir ? "href=/#{route}?path=#{CGI.escape(res.absolute)}" : "href=#panelActionFile" %>>
+			<a <%= is_dir ? "href=/#{route}?path=#{CGI.escape(res.absolute)}" : "data-name=#{res.name} data-path=#{CGI.escape(res.absolute)} data-route=#{route} class=openPanelActionFile" %>>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
 		</li>
 	<% end %>
 </ul><!-- /listview -->
+
+<div data-role="popup" id="popupDeleteFile" data-overlay-theme="b" data-theme="b" style="max-width:400px;">
+	<div data-role="header" data-theme="a">
+		<h1>Delete</h1>
+	</div>
+	<div role="main" class="ui-content" id="popupDeleteFileContent">
+		<h3 class="ui-title"></h3>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
+		<a href="" class="deleteFileBtn ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
+	</div>
+</div><!-- /popup -->
 
 <% if (path != nil) %>
 	<div data-role="popup" id="popupDeletePath" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">

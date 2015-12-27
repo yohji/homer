@@ -29,13 +29,10 @@ class FilesystemController < ApplicationController
 			raise "Illegal access"
 		end
 		
-		if (File.directory?(path))
-			params[:path] = expand(path)
-		end
-		
+		redir = expand(path)
 		rm(path)
 
-		redirect_to eval("%s_path" % [params[:route]])
+		redirect_to(action: params[:route], path: redir)
 	end
 
 	private

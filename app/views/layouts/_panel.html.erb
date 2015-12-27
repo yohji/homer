@@ -1,3 +1,12 @@
-<div data-role="panel" id="panelActionFile" data-transition="overlay">
-	<a href="#panelActionFile" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
+<div data-role="panel" id="panelActionFile" data-display="overlay" data-position="right" data-dismissible="false" data-theme="b">
+	<div data-role="header" data-theme="a">
+		<h1>Action</h1>
+	</div>
+	<a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+	<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="a">
+		<li><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-info ui-btn-icon-left">Details</a></li>
+		<li><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-arrow-r ui-btn-icon-left">Move</a></li>
+		<li><a href="#popupDeleteFile" data-rel="popup" data-position-to="window" data-transition="pop" 
+			   class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left">Delete</a></li>
+	</ul>
 </div><!-- /panel -->
