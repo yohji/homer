@@ -1,54 +1,53 @@
 class FilesystemController < ApplicationController
-	include FilesystemHelper
+	include FilesystemHelper, NavigationHelper
 	
-	def download
+	def home
 		
-		@data = prepare("download")
+		redirect_to(action: :show, route: ROUTE_DOWNLOAD)
 	end
 	
-	def movie
+	def show
 		
-		@data = prepare("movie")
-	end
-	
-	def music
+		@autodiv = true
+		@filter = true
 		
-		@data = prepare("music")
-	end
-	
-	def iso
+		@route = params[:route]
+		if (@route == ROUTE_DOWNLOAD)
+			@autodiv = false
+			@filter = false
+		end
 		
-		@data = prepare("iso")
+		path_raw = params[:path]
+		if (path_raw == nil)
+			@path = nav_current(@route)
+
+		elsif (! path_raw.start_with?(nav_root(@route).absolute))
+			raise "Illegal access"
+			
+		else
+			@path = nav_select(@route, path_raw)
+		end
+		
+		@data = fs_resources(@path.absolute)
 	end
 	
 	def delete
 		
 		path = params[:path]
-		loc = APP_CONFIG["locations"][params[:route]]
-		if (! path.start_with?(loc))
+		route = params[:route]
+		
+		if (! path.start_with?(nav_root(route).absolute))
 			raise "Illegal access"
 		end
 		
-		redir = expand(path)
-		rm(path)
-
-		redirect_to(action: params[:route], path: redir)
-	end
-
-	private
-
-	def prepare(location)
-
-		path = params[:path]
-		loc = APP_CONFIG["locations"][location]
-
-		if (path == nil)
-			path = loc
-
-		elsif (! path.start_with?(loc))
-			raise "Illegal access"
+		if (File.directory?(path))
+			redir = nav_back(route)
+		else
+			redir = fs_expand(path)
 		end
+		
+		fs_rm(path)
 
-		return resources(path)
+		redirect_to(action: :show, route: route, path: redir)
 	end
 end

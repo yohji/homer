@@ -1,14 +1,16 @@
-<% 
-path = params[:path]
-autodiv = (path != nil) ? false : autodiv
+<%
+is_root = (nav_breadcrumb(@route).size == 1)
+@autodiv = ! is_root ? false : @autodiv
 %>
 
-<ul data-role="listview" data-inset="true" data-filter="<%= filter %>" data-autodividers="<%= autodiv %>">
+<ul data-role="listview" data-inset="true" data-filter="<%= @filter %>" data-autodividers="<%= @autodiv %>">
 
-	<% if path != nil %>
+	<% if (! is_root) %>
 		<div data-role="controlgroup" data-type="horizontal">
-			<a href="#" data-rel="back" class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left">&nbsp;</a>
-			<a href="#" class="disabled ui-btn ui-btn-b ui-corner-all"><%= path %></a>
+			<% nav_breadcrumb(@route).each do |bc| %>
+				<a <%= "href=/filesystem?route=#{@route}&path=#{CGI.escape(bc.absolute)}" %>
+					class="ui-btn ui-btn-b ui-corner-all"><%= bc.name %></a>
+			<% end %>
 			<a href="#popupDeletePath" data-rel="popup" data-position-to="window" data-transition="pop" 
 			   class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">&nbsp;</a>
 		</div><!-- /controlgroup -->
@@ -17,7 +19,7 @@ autodiv = (path != nil) ? false : autodiv
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <%= is_dir ? "href=/#{route}?path=#{CGI.escape(res.absolute)}" : "data-name=#{res.name} data-path=#{CGI.escape(res.absolute)} data-route=#{route} class=openPanelActionFile" %>>
+			<a <%= is_dir ? "href=/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" : "data-name=#{res.name} data-path=#{CGI.escape(res.absolute)} data-route=#{@route} class=openPanelActionFile" %>>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
 		</li>
@@ -35,15 +37,15 @@ autodiv = (path != nil) ? false : autodiv
 	</div>
 </div><!-- /popup -->
 
-<% if (path != nil) %>
+<% if (! is_root) %>
 	<div data-role="popup" id="popupDeletePath" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
 		<div data-role="header" data-theme="a">
 			<h1>Delete</h1>
 		</div>
 		<div role="main" class="ui-content">
-			<h3 class="ui-title">Delete <%= path %> ?</h3>
+			<h3 class="ui-title">Delete <%= @path.name %> ?</h3>
 			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
-			<a href="/delete?route=<%= route %>&path=<%= CGI.escape(path) %>" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
+			<a href="/delete?route=<%= @route %>&path=<%= CGI.escape(@path.absolute) %>" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
 		</div>
 	</div><!-- /popup -->
 <% end %>

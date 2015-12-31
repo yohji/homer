@@ -2,7 +2,7 @@ require 'fileutils'
 
 module FilesystemHelper
 
-	def resources(path, ext = "")
+	def fs_resources(path, ext = "")
 
 		resources = []
 
@@ -13,12 +13,12 @@ module FilesystemHelper
 		return resources.sort
 	end
 	
-	def expand(path)
+	def fs_expand(path)
 		
 		return File.expand_path("..", path)
 	end
 	
-	def rm(path)
+	def fs_rm(path)
 		
 		FileUtils.rm_rf(path)
 	end
