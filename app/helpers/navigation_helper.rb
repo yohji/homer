@@ -8,7 +8,7 @@ module NavigationHelper
 	def nav_setup
 		
 		nav = Hash.new
-		nav[ROUTE_DOWNLOAD] = [Path.new(APP_CONFIG["locations"][ROUTE_DOWNLOAD])]
+		nav[ROUTE_DOWNLOAD] = [Path.new(APP_CONFIG["locations"][ROUTE_DOWNLOAD], "/")]
 		nav[ROUTE_MOVIE] = [Path.new(APP_CONFIG["locations"][ROUTE_MOVIE], "/")]
 		nav[ROUTE_MUSIC] = [Path.new(APP_CONFIG["locations"][ROUTE_MUSIC], "/")]
 		nav[ROUTE_ISO] = [Path.new(APP_CONFIG["locations"][ROUTE_ISO], "/")]
@@ -28,10 +28,40 @@ module NavigationHelper
 
 	def nav_select(route, path)
 		
-		p = Path.new(path)
-		nav_breadcrumb(route).push(p)
+		bc = nav_breadcrumb(route)
+		first = bc.first
 		
-		return p
+		if (path == first.absolute)
+			
+			bc.clear
+			bc.push(first)
+			
+			return first
+		end
+		
+		curr = Path.new(path)
+		
+		idx = (bc.size - 1)
+		pos = -1
+		bc.reverse_each do |p| 
+			
+			if (p == curr)
+				pos = idx
+				break
+			end
+			
+			idx -= 1
+		end
+		
+		if (pos != -1)
+			while (bc.size > (pos + 1)) do 
+				bc.pop
+			end
+		else
+			bc.push(curr)
+		end
+		
+		return curr
 	end
 	
 	def nav_back(route)

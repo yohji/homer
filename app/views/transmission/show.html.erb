@@ -3,18 +3,18 @@
 <script>
 
 	function resize() {
-	
-	    $("iframe")
-	        .attr("width", $(window).width() - 45)
-	        .attr("height", $(window).height() - 45);
+
+		$("iframe")
+				.attr("width", $(window).width() - 45)
+				.attr("height", $(window).height() - 45);
 	}
 
-	$(document).on("pageinit", function() {
-	
-	    resize();
-	        
-		$(window).on("orientationchange", function(event) {
-		
+	$(document).on("pageshow", function () {
+
+		resize();
+
+		$(document).on("orientationchange", function () {
+
 			resize();
 		});
 	});

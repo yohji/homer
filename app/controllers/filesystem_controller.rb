@@ -31,6 +31,14 @@ class FilesystemController < ApplicationController
 		@data = fs_resources(@path.absolute)
 	end
 	
+	def back
+		
+		route = params[:route]
+		nav_back(route)
+		
+		redirect_to(action: :show, route: route)
+	end
+	
 	def delete
 		
 		path = params[:path]
@@ -41,13 +49,11 @@ class FilesystemController < ApplicationController
 		end
 		
 		if (File.directory?(path))
-			redir = nav_back(route)
-		else
-			redir = fs_expand(path)
+			nav_back(route)
 		end
 		
 		fs_rm(path)
 
-		redirect_to(action: :show, route: route, path: redir)
+		redirect_to(action: :show, route: route)
 	end
 end

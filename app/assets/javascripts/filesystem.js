@@ -1,4 +1,4 @@
-$(document).on("pagecreate", function () {
+$(document).on("pageshow", function () {
 
 	$(".openPanelActionFile").click(function () {
 

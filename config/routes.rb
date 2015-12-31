@@ -2,8 +2,9 @@ Rails.application.routes.draw do
 
 	root 'filesystem#home'
 
-	# Pages
+	# Navigation
 	get 'filesystem'     => 'filesystem#show'
+	get 'back'     => 'filesystem#back'
 	get 'transmission' => 'transmission#show'
 	
 	# Operations
