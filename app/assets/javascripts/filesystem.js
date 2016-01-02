@@ -1,4 +1,4 @@
-$(document).on("pageshow", function () {
+$(document).on("pagecreate", function () {
 
 	$(".openPanelActionFile").click(function () {
 
@@ -6,11 +6,13 @@ $(document).on("pageshow", function () {
 		path = $(this).data("path");
 		route = $(this).data("route");
 
-		$("#popupDeleteFileContent").find("h3").text("Delete " + name + " ?");
-		$("#popupDeleteFileContent").find(".deleteFileBtn")
+		pop = $.mobile.activePage.find("#popupDeleteFileContent");
+		pop.find("h3").text("Delete " + name + " ?");
+		pop.find(".deleteFileBtn")
 				.attr("href", "/delete?route=" + route + "&path=" + path);
 
-		$("#panelActionFile").trigger("updatelayout");
-		$("#panelActionFile").panel("open");
+		pan = $.mobile.activePage.find("#panelActionFile");
+		pan.trigger("updatelayout");
+		pan.panel("open");
 	});
 });
