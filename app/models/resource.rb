@@ -1,20 +1,30 @@
 class Resource
 	
-	attr_reader :absolute, :path, :name
+	attr_reader :absolute, :name
 
-	def initialize(filename, path)
+	def initialize(path, name = nil)
 		
-		@absolute = filename.dup
-		@stat = File.stat(@absolute)
-
-		@path = path
-		filename.slice!(path + "/")
-		@name = filename
+		@absolute = path
+		@name = name
+		
+		if (@name == nil)
+			@name = File.basename(@absolute)
+		end
+	end
+	
+	def == other
+		
+		@absolute == other.absolute
 	end
 	
 	def <=> other
 		
 		@absolute <=> other.absolute
+	end
+	
+	def stat
+		
+		File.stat(@absolute)
 	end
 	
 	def directory?
@@ -23,6 +33,7 @@ class Resource
 	end
 	
 	def size
-		@stat.size
+		
+		stat.size
 	end
 end

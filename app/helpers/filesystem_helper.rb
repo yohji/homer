@@ -7,7 +7,7 @@ module FilesystemHelper
 		resources = []
 
 		Dir.glob(path + "/*" + ext) do |f|
-			resources.push(Resource.new(f, path))
+			resources.push(Resource.new(f))
 		end
 		
 		return resources.sort

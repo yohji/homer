@@ -7,7 +7,9 @@ class SessionsController < ApplicationController
 
 		APP_CONFIG["users"].each do |user|
 
-			if (user["username"] == params[:session][:username].downcase && user["password"] == params[:session][:password])
+			if (user["username"] == params[:session][:username].downcase \
+					  && user["password"] == params[:session][:password])
+			  
 				login user["username"]
 				redirect_to root_path
 				return

@@ -8,10 +8,10 @@ module NavigationHelper
 	def nav_setup
 		
 		nav = Hash.new
-		nav[ROUTE_DOWNLOAD] = [Path.new(APP_CONFIG["locations"][ROUTE_DOWNLOAD], "/")]
-		nav[ROUTE_MOVIE] = [Path.new(APP_CONFIG["locations"][ROUTE_MOVIE], "/")]
-		nav[ROUTE_MUSIC] = [Path.new(APP_CONFIG["locations"][ROUTE_MUSIC], "/")]
-		nav[ROUTE_ISO] = [Path.new(APP_CONFIG["locations"][ROUTE_ISO], "/")]
+		nav[ROUTE_DOWNLOAD] = [Resource.new(APP_CONFIG["locations"][ROUTE_DOWNLOAD], "/")]
+		nav[ROUTE_MOVIE] = [Resource.new(APP_CONFIG["locations"][ROUTE_MOVIE], "/")]
+		nav[ROUTE_MUSIC] = [Resource.new(APP_CONFIG["locations"][ROUTE_MUSIC], "/")]
+		nav[ROUTE_ISO] = [Resource.new(APP_CONFIG["locations"][ROUTE_ISO], "/")]
 		
 		session[:navigation] = nav
 	end
@@ -39,7 +39,7 @@ module NavigationHelper
 			return first
 		end
 		
-		curr = Path.new(path)
+		curr = Resource.new(path)
 		
 		idx = (bc.size - 1)
 		pos = -1
@@ -66,7 +66,10 @@ module NavigationHelper
 	
 	def nav_back(route)
 
-		nav_breadcrumb(route).pop
+		bc = nav_breadcrumb(route)
+		if (bc.size > 1)
+			bc.pop
+		end
 	end
 	
 	def nav_current(route)

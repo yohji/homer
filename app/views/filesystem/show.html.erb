@@ -20,14 +20,14 @@ is_root = (nav_breadcrumb(@route).size == 1)
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <%= is_dir ? "href=/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" : "data-name=#{res.name} data-path=#{CGI.escape(res.absolute)} data-route=#{@route} class=openPanelActionFile" %>>
+			<a <%= is_dir ? "href=/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" : "data-name=#{CGI.escape(res.name)} data-path=#{CGI.escape(res.absolute)} data-route=#{@route} class=openPanelActionFile" %>>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
 		</li>
 	<% end %>
 </ul><!-- /listview -->
 
-<div data-role="popup" id="popupDeleteFile" data-overlay-theme="b" data-theme="b" style="max-width:400px;">
+<div data-role="popup" id="popupDeleteFile" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:400px;">
 	<div data-role="header" data-theme="a">
 		<h1>Delete</h1>
 	</div>
@@ -39,7 +39,7 @@ is_root = (nav_breadcrumb(@route).size == 1)
 </div><!-- /popup -->
 
 <% if (! is_root) %>
-	<div data-role="popup" id="popupDeletePath" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+	<div data-role="popup" id="popupDeletePath" data-history="false" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
 		<div data-role="header" data-theme="a">
 			<h1>Delete</h1>
 		</div>
