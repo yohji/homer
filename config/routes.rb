@@ -3,12 +3,13 @@ Rails.application.routes.draw do
 	root 'filesystem#home'
 
 	# Navigation
-	get 'filesystem'     => 'filesystem#show'
-	get 'back'     => 'filesystem#back'
-	get 'transmission' => 'transmission#show'
+	get 'filesystem'    => 'filesystem#show'
+	get 'back'          => 'filesystem#back'
+	get 'transmission'  => 'transmission#show'
 	
 	# Operations
-	get  'delete'      => 'filesystem#delete'
+	post 'delete'      => 'filesystem#delete'
+	post 'rename'      => 'filesystem#rename'
 
 	# Session
 	get  'login'  => 'sessions#show'

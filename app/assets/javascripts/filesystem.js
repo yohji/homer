@@ -6,11 +6,19 @@ $(document).on("pagecreate", function () {
 		path = $(this).data("path");
 		route = $(this).data("route");
 
-		pop = $.mobile.activePage.find("#popupDeleteFileContent");
-		pop.find("h3").text("Delete " + name + " ?");
-		pop.find(".deleteFileBtn")
-				.attr("href", "/delete?route=" + route + "&path=" + path);
+		// Rename popup
+		pop = $.mobile.activePage.find("#popupRenameFileContent");
+		pop.find("input[name='name']").val(name);
+		pop.find("input[name='path']").val(path);
+		pop.find("input[name='route']").val(route);
 
+		// Delete popup
+		pop = $.mobile.activePage.find("#popupDeleteFileContent");
+		pop.find("h3").text(name);
+		pop.find("input[name='path']").val(path);
+		pop.find("input[name='route']").val(route);
+
+		// Action panel
 		pan = $.mobile.activePage.find("#panelActionFile");
 		pan.trigger("updatelayout");
 		pan.panel("open");

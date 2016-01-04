@@ -18,12 +18,10 @@ class FilesystemController < ApplicationController
 		end
 		
 		path_raw = params[:path]
+		check_access(path_raw, @route)
+		
 		if (path_raw == nil)
 			@path = nav_current(@route)
-
-		elsif (! path_raw.start_with?(nav_root(@route).absolute))
-			raise "Illegal access"
-			
 		else
 			@path = nav_select(@route, path_raw)
 		end
@@ -43,10 +41,7 @@ class FilesystemController < ApplicationController
 		
 		path = params[:path]
 		route = params[:route]
-		
-		if (! path.start_with?(nav_root(route).absolute))
-			raise "Illegal access"
-		end
+		check_access(path, route)
 		
 		if (File.directory?(path))
 			nav_back(route)
@@ -55,5 +50,25 @@ class FilesystemController < ApplicationController
 		fs_rm(path)
 
 		redirect_to(action: :show, route: route)
+	end
+	
+	def rename
+		
+		path = params[:path]
+		route = params[:route]
+		name = params[:name]
+		
+		fs_rename(path, name)
+
+		redirect_to(action: :show, route: route)
+	end
+	
+	private
+
+	def check_access(path, route)
+		
+		if (path != nil && ! path.start_with?(nav_root(route).absolute))
+			raise "Illegal access"
+		end
 	end
 end

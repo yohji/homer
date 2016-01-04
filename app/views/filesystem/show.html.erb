@@ -20,33 +20,65 @@ is_root = (nav_breadcrumb(@route).size == 1)
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <%= is_dir ? "href=/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" : "data-name=#{CGI.escape(res.name)} data-path=#{CGI.escape(res.absolute)} data-route=#{@route} class=openPanelActionFile" %>>
+			<a <% if is_dir %>href="<%= "/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" %>">
+				<% else %>data-name="<%= res.name %>" data-path="<%= res.absolute %>" data-route="<%= @route %>" class="openPanelActionFile">
+				<% end %>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
 		</li>
 	<% end %>
 </ul><!-- /listview -->
 
-<div data-role="popup" id="popupDeleteFile" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:400px;">
+<div data-role="popup" id="popupDeleteFile" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
 	<div data-role="header" data-theme="a">
 		<h1>Delete</h1>
 	</div>
+	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
 	<div role="main" class="ui-content" id="popupDeleteFileContent">
-		<h3 class="ui-title"></h3>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
-		<a href="" class="deleteFileBtn ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
+		<form action="/delete" method="post">
+			<input type="hidden" name="path" />
+			<input type="hidden" name="route" />
+			<h3 class="ui-title"></h3>
+			<div class="ui-input-btn ui-btn ui-corner-all">
+				<input type="submit" value="Delete" />
+			</div>
+		</form>
+	</div>
+</div><!-- /popup -->
+
+<div data-role="popup" id="popupRenameFile" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
+	<div data-role="header" data-theme="a">
+		<h1>Rename</h1>
+	</div>
+	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+	<div role="main" class="ui-content" id="popupRenameFileContent">
+		<form action="/rename" method="post">
+			<input type="hidden" name="path" />
+			<input type="hidden" name="route" />
+			<div class="ui-field-contain">
+				<input type="text" data-clear-btn="true" name="name" />
+			</div>
+			<div class="ui-input-btn ui-btn ui-corner-all">
+				<input type="submit" value="Rename" />
+			</div>
+		</form>
 	</div>
 </div><!-- /popup -->
 
 <% if (! is_root) %>
-	<div data-role="popup" id="popupDeletePath" data-history="false" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+	<div data-role="popup" id="popupDeletePath" data-history="false" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:600px;">
 		<div data-role="header" data-theme="a">
 			<h1>Delete</h1>
 		</div>
 		<div role="main" class="ui-content">
-			<h3 class="ui-title">Delete <%= @path.name %> ?</h3>
-			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
-			<a href="/delete?route=<%= @route %>&path=<%= CGI.escape(@path.absolute) %>" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Delete</a>
+			<form action="/delete" method="post">
+				<input type="hidden" name="path" value="<%= @path.absolute %>" />
+				<input type="hidden" name="route" value="<%= @route %>" />
+				<h3 class="ui-title"><%= @path.name %></h3>
+				<div class="ui-input-btn ui-btn ui-corner-all">
+					<input type="submit" value="Delete" />
+				</div>
+			</form>
 		</div>
 	</div><!-- /popup -->
 <% end %>

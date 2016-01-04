@@ -22,4 +22,10 @@ module FilesystemHelper
 		
 		FileUtils.rm_rf(path)
 	end
+	
+	def fs_rename(path, name)
+
+		base = fs_expand(path)
+		File.rename(path, "#{base}/#{name}")
+	end
 end
