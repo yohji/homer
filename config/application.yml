@@ -6,6 +6,6 @@ users:
 
 locations:
   download: "/tmp"
-  movie: "/tmp"
-  music: "/tmp"
-  iso: "/tmp"
+  movie: "/tmp/homer/movie"
+  music: "/tmp/homer/music"
+  iso: "/tmp/homer/iso"

@@ -37,6 +37,38 @@ class FilesystemController < ApplicationController
 		redirect_to(action: :show, route: route)
 	end
 	
+	def move
+		
+		path = params[:path]
+		route = params[:route]
+		loc = params[:location]
+		
+		if (File.directory?(path))
+			nav_back(route)
+		end
+		
+		fs_move(path, loc)
+		
+		redirect_to(action: :show, route: route)
+	end
+	
+	def rename
+		
+		path = params[:path]
+		route = params[:route]
+		name = params[:name]
+		
+		if (File.directory?(path))
+			curr = nav_current(route)
+			curr.name = name
+			curr.absolute = fs_expand(path) + "/" + name
+		end
+		
+		fs_rename(path, name)
+
+		redirect_to(action: :show, route: route)
+	end
+	
 	def delete
 		
 		path = params[:path]
@@ -48,17 +80,6 @@ class FilesystemController < ApplicationController
 		end
 		
 		fs_rm(path)
-
-		redirect_to(action: :show, route: route)
-	end
-	
-	def rename
-		
-		path = params[:path]
-		route = params[:route]
-		name = params[:name]
-		
-		fs_rename(path, name)
 
 		redirect_to(action: :show, route: route)
 	end

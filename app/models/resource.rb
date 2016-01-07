@@ -1,6 +1,6 @@
 class Resource
 	
-	attr_reader :absolute, :name
+	attr_accessor :absolute, :name
 
 	def initialize(path, name = nil)
 		

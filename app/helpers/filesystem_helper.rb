@@ -28,4 +28,9 @@ module FilesystemHelper
 		base = fs_expand(path)
 		File.rename(path, "#{base}/#{name}")
 	end
+	
+	def fs_move(path, location)
+		
+		FileUtils.mv(path, APP_CONFIG["locations"][location])
+	end
 end

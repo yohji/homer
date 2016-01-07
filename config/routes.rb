@@ -8,8 +8,9 @@ Rails.application.routes.draw do
 	get 'transmission'  => 'transmission#show'
 	
 	# Operations
-	post 'delete'      => 'filesystem#delete'
-	post 'rename'      => 'filesystem#rename'
+	post 'delete' => 'filesystem#delete'
+	post 'rename' => 'filesystem#rename'
+	post 'move'   => 'filesystem#move'
 
 	# Session
 	get  'login'  => 'sessions#show'
