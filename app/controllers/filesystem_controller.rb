@@ -84,6 +84,14 @@ class FilesystemController < ApplicationController
 		redirect_to(action: :show, route: route)
 	end
 	
+	def info
+		
+		path = params[:path]
+		@info = File.stat(path).size
+		
+		render json: @info
+	end
+	
 	private
 
 	def check_access(path, route)

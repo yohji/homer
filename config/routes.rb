@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 	post 'delete' => 'filesystem#delete'
 	post 'rename' => 'filesystem#rename'
 	post 'move'   => 'filesystem#move'
+	get  'info'   => 'filesystem#info'
 
 	# Session
 	get  'login'  => 'sessions#show'

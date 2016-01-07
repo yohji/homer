@@ -45,6 +45,7 @@ is_root = (nav_breadcrumb(@route).size == 1)
         <form action="/move" method="post">
             <input type="hidden" name="path" />
             <input type="hidden" name="route" />
+	    <h3 class="ui-title"></h3>
             <fieldset data-role="controlgroup">
                 <input type="radio" id="radio-movie" name="location" value="movie" checked="checked">
                 <label for="radio-movie">Movie</label>
@@ -93,5 +94,14 @@ is_root = (nav_breadcrumb(@route).size == 1)
 		<input type="submit" value="Ok" />
 	    </div>
 	</form>
+    </div>
+</div><!-- /popup -->
+
+<div data-role="popup" id="popupInfo" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
+    <div data-role="header" data-theme="a">
+	<h1>Info</h1>
+    </div>
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+    <div role="main" class="ui-content" id="popupInfoContent">
     </div>
 </div><!-- /popup -->
