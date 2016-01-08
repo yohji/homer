@@ -1,3 +1,5 @@
+require 'mediainfo'
+
 class FilesystemController < ApplicationController
 	include FilesystemHelper, NavigationHelper
 	
@@ -87,7 +89,7 @@ class FilesystemController < ApplicationController
 	def info
 		
 		path = params[:path]
-		@info = File.stat(path).size
+		@info = Media.new(Mediainfo.new(path))
 		
 		render json: @info
 	end

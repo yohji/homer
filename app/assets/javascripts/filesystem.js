@@ -28,11 +28,47 @@ function setupPopupInfo(path) {
 	type: "GET",
 	url: "/info?path=" + encodeURIComponent(path),
 	dataType: "json",
-	cache: false,
 	success: function (data) {
 
 	    pop = $.mobile.activePage.find("#popupInfoContent");
-	    pop.html(data);
+	    pop.empty();
+	    table = $(document.createElement("table"));
+	    pop.append(table);
+
+	    $.each(data, function (name, value) {
+		if (value !== null) {
+
+		    tr = $(document.createElement("tr"));
+
+		    if (name === "audio" || name === "video" || name === "image") {
+			sep = $(document.createElement("td"))
+				.attr("colspan", "2")
+				.attr("style", "padding-top: 15px;")
+				.text(name.toUpperCase());
+
+			tr.append(sep);
+			table.append(tr);
+
+			$.each(value, function (n, v) {
+			    if (v !== null) {
+
+				tr = $(document.createElement("tr"));
+
+				tr.append($(document.createElement("td")).text(n));
+				tr.append($(document.createElement("td")).text(v));
+
+				table.append(tr);
+			    }
+			});
+
+		    } else {
+			tr.append($(document.createElement("td")).text(name));
+			tr.append($(document.createElement("td")).text(value));
+
+			table.append(tr);
+		    }
+		}
+	    });
 	}
     });
 }
