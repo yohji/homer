@@ -1,39 +1,42 @@
 <%
 is_root = (nav_breadcrumb(@route).size == 1)
 @autodiv = ! is_root ? false : @autodiv
+curr = nav_current(@route)
 %>
+
+<form name="panelParams">
+	<input type="hidden" name="name" value="<%= curr.name %>" />
+	<input type="hidden" name="path" value="<%= curr.absolute %>" />
+	<input type="hidden" name="route" value="<%= @route %>" />
+</form>
 
 <ul data-role="listview" data-inset="true" data-filter="<%= @filter %>" data-autodividers="<%= @autodiv %>">
 
-    <% 
-    if (! is_root) 
-      curr = nav_current(@route)
-    %>
-      <div data-role="controlgroup" data-type="horizontal">
-	  <a <%= "href=/back?route=#{@route}" %> class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left">&nbsp;</a>
-	  <% nav_breadcrumb(@route).each do |bc| %>
-	    <a <%= "href=/filesystem?route=#{@route}&path=#{CGI.escape(bc.absolute)}" %>
-		class="ui-btn ui-btn-b ui-corner-all"><%= bc.name %></a>
-	      <% end %>
-	  <a href="#" data-name="<%= curr.name %>" data-path="<%= curr.absolute %>" data-route="<%= @route %>"
-	     class="openPopupMove ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-arrow-r">&nbsp;</a>
-	  <a href="#" data-name="<%= curr.name %>" data-path="<%= curr.absolute %>" data-route="<%= @route %>"
-	     class="openPopupRename ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-recycle">&nbsp;</a>
-	  <a href="#" data-name="<%= curr.name %>" data-path="<%= curr.absolute %>" data-route="<%= @route %>"
-	     class="openPopupDelete ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-delete">&nbsp;</a>
-      </div><!-- /controlgroup -->
-    <% end %>
+	<% 
+	if (! is_root) 
+	%>
+		<div data-role="controlgroup" data-type="horizontal">
+			<a <%= "href=/back?route=#{@route}" %> class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left">&nbsp;</a>
+			<% nav_breadcrumb(@route).each do |bc| %>
+				<a <%= "href=/filesystem?route=#{@route}&path=#{CGI.escape(bc.absolute)}" %>
+					class="ui-btn ui-btn-b ui-corner-all"><%= bc.name %></a>
+				<% end %>
+			<a href="#" class="openPopupMove ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-arrow-r">&nbsp;</a>
+			<a href="#" class="openPopupRename ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-recycle">&nbsp;</a>
+			<a href="#" class="openPopupDelete ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-delete">&nbsp;</a>
+		</div><!-- /controlgroup -->
+	<% end %>
 
-    <% @data.each do |res| %>
-      <% is_dir = res.directory? %>
-      <li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-	  <a <% if is_dir %>href="<%= "/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" %>">
-	      <% else %>data-name="<%= res.name %>" data-path="<%= res.absolute %>" data-route="<%= @route %>" class="openPanel">
-	      <% end %>
-	      <%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
-	  </a>
-      </li>
-    <% end %>
+	<% @data.each do |res| %>
+		<% is_dir = res.directory? %>
+		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
+			<a <% if is_dir %>href="<%= "/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" %>">
+				<% else %>data-name="<%= res.name %>" data-path="<%= res.absolute %>" class="openPanel">
+				<% end %>
+				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
+			</a>
+		</li>
+	<% end %>
 </ul><!-- /listview -->
 
 <div data-role="popup" id="popupMove" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
@@ -45,7 +48,7 @@ is_root = (nav_breadcrumb(@route).size == 1)
         <form action="/move" method="post">
             <input type="hidden" name="path" />
             <input type="hidden" name="route" />
-	    <h3 class="ui-title"></h3>
+			<h3 class="ui-title"></h3>
             <fieldset data-role="controlgroup">
                 <input type="radio" id="radio-movie" name="location" value="movie" checked="checked">
                 <label for="radio-movie">Movie</label>
@@ -63,43 +66,43 @@ is_root = (nav_breadcrumb(@route).size == 1)
 
 <div data-role="popup" id="popupRename" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
     <div data-role="header" data-theme="a">
-	<h1>Rename</h1>
+		<h1>Rename</h1>
     </div>
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
     <div role="main" class="ui-content" id="popupRenameContent">
-	<form action="/rename" method="post">
-	    <input type="hidden" name="path" />
-	    <input type="hidden" name="route" />
-	    <div class="ui-field-contain">
-		<input type="text" data-clear-btn="true" name="name" />
-	    </div>
-	    <div class="ui-input-btn ui-btn ui-corner-all">
-		<input type="submit" value="Ok" />
-	    </div>
-	</form>
+		<form action="/rename" method="post">
+			<input type="hidden" name="path" />
+			<input type="hidden" name="route" />
+			<div class="ui-field-contain">
+				<input type="text" data-clear-btn="true" name="name" />
+			</div>
+			<div class="ui-input-btn ui-btn ui-corner-all">
+				<input type="submit" value="Ok" />
+			</div>
+		</form>
     </div>
 </div><!-- /popup -->
 
 <div data-role="popup" id="popupDelete" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
     <div data-role="header" data-theme="a">
-	<h1>Delete</h1>
+		<h1>Delete</h1>
     </div>
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
     <div role="main" class="ui-content" id="popupDeleteContent">
-	<form action="/delete" method="post">
-	    <input type="hidden" name="path" />
-	    <input type="hidden" name="route" />
-	    <h3 class="ui-title"></h3>
-	    <div class="ui-input-btn ui-btn ui-corner-all">
-		<input type="submit" value="Ok" />
-	    </div>
-	</form>
+		<form action="/delete" method="post">
+			<input type="hidden" name="path" />
+			<input type="hidden" name="route" />
+			<h3 class="ui-title"></h3>
+			<div class="ui-input-btn ui-btn ui-corner-all">
+				<input type="submit" value="Ok" />
+			</div>
+		</form>
     </div>
 </div><!-- /popup -->
 
 <div data-role="popup" id="popupInfo" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
     <div data-role="header" data-theme="a">
-	<h1>Info</h1>
+		<h1>Info</h1>
     </div>
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
     <div role="main" class="ui-content" id="popupInfoContent">

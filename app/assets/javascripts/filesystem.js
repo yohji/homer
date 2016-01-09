@@ -1,134 +1,155 @@
-function setupPopupMove(name, path, route) {
+function writePanelParams(name, path) {
 
-    pop = $.mobile.activePage.find("#popupMoveContent");
-    pop.find("h3").text(name);
-    pop.find("input[name='path']").val(path);
-    pop.find("input[name='route']").val(route);
+	form = $.mobile.activePage.find("form[name='panelParams']");
+	form.find("input[name='name']").val(name);
+	form.find("input[name='path']").val(path);
 }
 
-function setupPopupRename(name, path, route) {
+function readPanelParams() {
 
-    pop = $.mobile.activePage.find("#popupRenameContent");
-    pop.find("input[name='name']").val(name);
-    pop.find("input[name='path']").val(path);
-    pop.find("input[name='route']").val(route);
+	form = $.mobile.activePage.find("form[name='panelParams']");
+	name = form.find("input[name='name']").val();
+	path = form.find("input[name='path']").val();
+	route = form.find("input[name='route']").val();
+
+	return [name, path, route];
 }
 
-function setupPopupDelete(name, path, route) {
+function openPopup(id) {
 
-    pop = $.mobile.activePage.find("#popupDeleteContent");
-    pop.find("h3").text(name);
-    pop.find("input[name='path']").val(path);
-    pop.find("input[name='route']").val(route);
+	$(id).popup("option", "transition", "pop");
+	$(id).popup("option", "positionTo", "window");
+	$(id).popup("open");
 }
 
-function setupPopupInfo(path) {
+function setupPopupMove() {
 
-    $.ajax({
-	type: "GET",
-	url: "/info?path=" + encodeURIComponent(path),
-	dataType: "json",
-	success: function (data) {
+	params = readPanelParams();
 
-	    pop = $.mobile.activePage.find("#popupInfoContent");
-	    pop.empty();
-	    table = $(document.createElement("table"));
-	    pop.append(table);
+	pop = $.mobile.activePage.find("#popupMoveContent");
+	pop.find("h3").text(params[0]);
+	pop.find("input[name='path']").val(params[1]);
+	pop.find("input[name='route']").val(params[2]);
+}
 
-	    $.each(data, function (name, value) {
-		if (value !== null) {
+function setupPopupRename() {
 
-		    tr = $(document.createElement("tr"));
+	params = readPanelParams();
 
-		    if (name === "audio" || name === "video" || name === "image") {
-			sep = $(document.createElement("td"))
-				.attr("colspan", "2")
-				.attr("style", "padding-top: 15px;")
-				.text(name.toUpperCase());
+	pop = $.mobile.activePage.find("#popupRenameContent");
+	pop.find("input[name='name']").val(params[0]);
+	pop.find("input[name='path']").val(params[1]);
+	pop.find("input[name='route']").val(params[2]);
+}
 
-			tr.append(sep);
-			table.append(tr);
+function setupPopupDelete() {
 
-			$.each(value, function (n, v) {
-			    if (v !== null) {
+	params = readPanelParams();
 
-				tr = $(document.createElement("tr"));
+	pop = $.mobile.activePage.find("#popupDeleteContent");
+	pop.find("h3").text(params[0]);
+	pop.find("input[name='path']").val(params[1]);
+	pop.find("input[name='route']").val(params[2]);
+}
 
-				tr.append($(document.createElement("td")).text(n));
-				tr.append($(document.createElement("td")).text(v));
+function setupPopupInfo() {
 
-				table.append(tr);
-			    }
+	params = readPanelParams();
+
+	$.ajax({
+		type: "GET",
+		url: "/info?path=" + encodeURIComponent(params[1]),
+		dataType: "json",
+		success: function (data) {
+
+			pop = $.mobile.activePage.find("#popupInfoContent");
+			pop.empty();
+			table = $(document.createElement("table"));
+			pop.append(table);
+
+			$.each(data, function (name, value) {
+				if (value !== null) {
+
+					tr = $(document.createElement("tr"));
+
+					if (name === "audio" || name === "video" || name === "image") {
+						sep = $(document.createElement("td"))
+								.attr("colspan", "2")
+								.attr("style", "padding-top: 15px;")
+								.text(name.toUpperCase());
+
+						tr.append(sep);
+						table.append(tr);
+
+						$.each(value, function (n, v) {
+							if (v !== null) {
+
+								tr = $(document.createElement("tr"));
+
+								tr.append($(document.createElement("td")).text(n));
+								tr.append($(document.createElement("td")).text(v));
+
+								table.append(tr);
+							}
+						});
+
+					} else {
+						tr.append($(document.createElement("td")).text(name));
+						tr.append($(document.createElement("td")).text(value));
+
+						table.append(tr);
+					}
+				}
 			});
-
-		    } else {
-			tr.append($(document.createElement("td")).text(name));
-			tr.append($(document.createElement("td")).text(value));
-
-			table.append(tr);
-		    }
 		}
-	    });
-	}
-    });
+	});
 }
 
 $(document).on("pagecreate", function () {
 
-    $(".openPopupMove").click(function () {
+	$(".openPopupMove").click(function () {
 
-	setupPopupMove(
-		$(this).data("name"),
-		$(this).data("path"),
-		$(this).data("route"));
+		setupPopupMove();
+		openPopup("#popupMove");
+	});
 
-	$("#popupMove").popup("open");
-    });
+	$(".openPopupRename").click(function () {
 
-    $(".openPopupRename").click(function () {
+		setupPopupRename();
+		openPopup("#popupRename");
+	});
 
-	setupPopupRename(
-		$(this).data("name"),
-		$(this).data("path"),
-		$(this).data("route"));
+	$(".openPopupDelete").click(function () {
 
-	$("#popupRename").popup("open");
-    });
+		setupPopupDelete();
+		openPopup("#popupDelete");
+	});
 
-    $(".openPopupDelete").click(function () {
+	$(".openPopupInfo").click(function () {
 
-	setupPopupDelete(
-		$(this).data("name"),
-		$(this).data("path"),
-		$(this).data("route"));
+		setupPopupInfo();
+		openPopup("#popupInfo");
+	});
 
-	$("#popupDelete").popup("open");
-    });
+	$(".openPanel").click(function () {
 
-    $(".openPanel").click(function () {
+		writePanelParams(
+				$(this).data("name"),
+				$(this).data("path"));
 
-	name = $(this).data("name");
-	path = $(this).data("path");
-	route = $(this).data("route");
+		pan = $.mobile.activePage.find("#panelActionFile");
+		pan.trigger("updatelayout");
+		pan.panel("open");
+	});
 
-	setupPopupMove(name, path, route);
-	setupPopupRename(name, path, route);
-	setupPopupDelete(name, path, route);
-	setupPopupInfo(path);
+	$("#popupMove, #popupRename, #popupDelete, #popupInfo").popup({
+		afterclose: function () {
 
-	pan = $.mobile.activePage.find("#panelActionFile");
-	pan.trigger("updatelayout");
-	pan.panel("open");
-    });
-
-    $("#popupMove, #popupRename, #popupDelete, #popupInfo").popup({
-	afterclose: function () {
-
-	    try {
-		$.mobile.popup.active = null;
-		delete $.mobile.popup.active;
-	    } catch (e) {
-	    }
-	}
-    });
+			try {
+				$.mobile.popup.active = null;
+				delete $.mobile.popup.active;
+			} catch (e) {
+			}
+		}
+	});
 });
