@@ -70,33 +70,33 @@ function setupPopupInfo() {
 			$.each(data, function (name, value) {
 				if (value !== null) {
 
-					tr = $(document.createElement("tr"));
-
 					if (name === "audio" || name === "video" || name === "image") {
-						sep = $(document.createElement("td"))
-								.attr("colspan", "2")
-								.attr("style", "padding-top: 15px;")
-								.text(name.toUpperCase());
+						$.each(value, function (idx, hash) {
 
-						tr.append(sep);
-						table.append(tr);
+							tr = $(document.createElement("tr"));
+							sep = $(document.createElement("td"))
+									.attr("colspan", "2")
+									.attr("style", "padding-top: 15px;")
+									.text(name.toUpperCase() + " #" + idx);
 
-						$.each(value, function (n, v) {
-							if (v !== null) {
+							tr.append(sep);
+							table.append(tr);
 
-								tr = $(document.createElement("tr"));
+							$.each(hash, function (n, v) {
+								if (v !== null) {
 
-								tr.append($(document.createElement("td")).text(n));
-								tr.append($(document.createElement("td")).text(v));
-
-								table.append(tr);
-							}
+									tr = $(document.createElement("tr"));
+									tr.append($(document.createElement("td")).text(n));
+									tr.append($(document.createElement("td")).text(v));
+									table.append(tr);
+								}
+							});
 						});
 
 					} else {
+						tr = $(document.createElement("tr"));
 						tr.append($(document.createElement("td")).text(name));
 						tr.append($(document.createElement("td")).text(value));
-
 						table.append(tr);
 					}
 				}
