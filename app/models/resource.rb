@@ -8,7 +8,7 @@ class Resource
 		@name = name
 		@size = stat.size
 		
-		if (@name == nil)
+		if (@name.nil?)
 			@name = File.basename(@absolute)
 		end
 	end

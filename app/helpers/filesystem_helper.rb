@@ -33,4 +33,32 @@ module FilesystemHelper
 		
 		FileUtils.mv(path, APP_CONFIG["locations"][location])
 	end
+	
+	def fs_tree_dir(path)
+		
+		fs_tree(path, nil, true);
+	end
+	
+	def fs_tree(path, name = nil, only_dir = false)
+		
+		name = File.basename(path) if name.nil?
+		
+		tree = {:name => name, :path => path}
+		tree[:child] = child = []
+		
+		Dir.foreach(path) do |entry|
+			
+			next if (entry == '..' || entry == '.')
+			full_path = File.join(path, entry)
+			
+			if File.directory?(full_path)
+				child << fs_tree(full_path, entry, only_dir)
+				
+			elsif (! only_dir)
+				child << entry
+			end
+		end
+		
+		return tree
+	end
 end

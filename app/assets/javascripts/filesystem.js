@@ -22,112 +22,156 @@ function openPopup(id) {
 	$(id).popup("open");
 }
 
-function setupPopupMove() {
+function buildTree(tree, elem) {
 
-	params = readPanelParams();
+	a = $(document.createElement("a"))
+			.text(elem.name)
+			.attr("data-path", elem.path)
+			.attr("class", "choosePopupMove");
 
-	pop = $.mobile.activePage.find("#popupMoveContent");
-	pop.find("h3").text(params[0]);
-	pop.find("input[name='path']").val(params[1]);
-	pop.find("input[name='route']").val(params[2]);
-}
+	if (elem.child !== null && elem.child.length > 0) {
 
-function setupPopupRename() {
+		li = $(document.createElement("li"))
+				.attr("data-role", "collapsible")
+				.attr("data-iconpos", "right")
+				.attr("data-shadow", "false")
+				.attr("data-corners", "false");
 
-	params = readPanelParams();
+		tree.append(li);
+		li.append($(document.createElement("h2")).append(a));
 
-	pop = $.mobile.activePage.find("#popupRenameContent");
-	pop.find("input[name='name']").val(params[0]);
-	pop.find("input[name='path']").val(params[1]);
-	pop.find("input[name='route']").val(params[2]);
-}
+		ul = $(document.createElement("ul"))
+				.attr("data-role", "listview")
+				.attr("data-inset", "true")
+				.attr("data-shadow", "false")
+				.attr("data-corners", "false");
 
-function setupPopupDelete() {
+		li.append(ul);
+		$.each(elem.child, function (idx, child) {
 
-	params = readPanelParams();
+			buildTree(ul, child);
+		});
 
-	pop = $.mobile.activePage.find("#popupDeleteContent");
-	pop.find("h3").text(params[0]);
-	pop.find("input[name='path']").val(params[1]);
-	pop.find("input[name='route']").val(params[2]);
-}
-
-function setupPopupInfo() {
-
-	params = readPanelParams();
-
-	$.ajax({
-		type: "GET",
-		url: "/info?path=" + encodeURIComponent(params[1]),
-		dataType: "json",
-		success: function (data) {
-
-			pop = $.mobile.activePage.find("#popupInfoContent");
-			pop.empty();
-			table = $(document.createElement("table"));
-			pop.append(table);
-
-			$.each(data, function (name, value) {
-				if (value !== null) {
-
-					if (name === "audio" || name === "video" || name === "image") {
-						$.each(value, function (idx, hash) {
-
-							tr = $(document.createElement("tr"));
-							sep = $(document.createElement("td"))
-									.attr("colspan", "2")
-									.attr("style", "padding-top: 15px;")
-									.text(name.toUpperCase() + " #" + idx);
-
-							tr.append(sep);
-							table.append(tr);
-
-							$.each(hash, function (n, v) {
-								if (v !== null) {
-
-									tr = $(document.createElement("tr"));
-									tr.append($(document.createElement("td")).text(n));
-									tr.append($(document.createElement("td")).text(v));
-									table.append(tr);
-								}
-							});
-						});
-
-					} else {
-						tr = $(document.createElement("tr"));
-						tr.append($(document.createElement("td")).text(name));
-						tr.append($(document.createElement("td")).text(value));
-						table.append(tr);
-					}
-				}
-			});
-		}
-	});
+	} else
+		tree.append($(document.createElement("li")).append(a));
 }
 
 $(document).on("pagecreate", function () {
 
 	$(".openPopupMove").click(function () {
 
-		setupPopupMove();
-		openPopup("#popupMove");
+		params = readPanelParams();
+
+		pop = $.mobile.activePage.find("#popupMoveContent");
+		pop.find("h3").text(params[0]);
+		pop.find("input[name='path']").val(params[1]);
+		pop.find("input[name='route']").val(params[2]);
+
+		$.ajax({
+			type: "GET",
+			url: "/tree",
+			dataType: "json",
+			success: function (data) {
+
+				tree = $.mobile.activePage.find("#popupMoveTree");
+				tree.empty();
+
+				$.each(data, function (idx, elem) {
+
+					buildTree(tree, elem);
+				});
+
+				$("#popupMove").trigger("create");
+
+				$(".choosePopupMove").click(function () {
+
+					pop = $.mobile.activePage.find("#popupMoveContent");
+					pop.find("input[name='location']")
+							.val($(this).data("path"));
+				});
+
+				openPopup("#popupMove");
+			}
+		});
 	});
 
 	$(".openPopupRename").click(function () {
 
-		setupPopupRename();
+		params = readPanelParams();
+
+		pop = $.mobile.activePage.find("#popupRenameContent");
+		pop.find("input[name='name']").val(params[0]);
+		pop.find("input[name='path']").val(params[1]);
+		pop.find("input[name='route']").val(params[2]);
+
 		openPopup("#popupRename");
 	});
 
 	$(".openPopupDelete").click(function () {
 
-		setupPopupDelete();
+		params = readPanelParams();
+
+		pop = $.mobile.activePage.find("#popupDeleteContent");
+		pop.find("h3").text(params[0]);
+		pop.find("input[name='path']").val(params[1]);
+		pop.find("input[name='route']").val(params[2]);
+
 		openPopup("#popupDelete");
 	});
 
 	$(".openPopupInfo").click(function () {
 
-		setupPopupInfo();
+		params = readPanelParams();
+
+		$.ajax({
+			type: "GET",
+			url: "/info?path=" + encodeURIComponent(params[1]),
+			dataType: "json",
+			success: function (data) {
+
+				pop = $.mobile.activePage.find("#popupInfoContent");
+				pop.empty();
+
+				table = $(document.createElement("table"));
+				pop.append(table);
+
+				$.each(data, function (name, value) {
+					if (value !== null) {
+
+						if (name === "audio" || name === "video" || name === "image") {
+							$.each(value, function (idx, hash) {
+
+								tr = $(document.createElement("tr"));
+								sep = $(document.createElement("td"))
+										.attr("colspan", "2")
+										.attr("style", "padding-top: 15px;")
+										.text(name.toUpperCase() + " #" + idx);
+
+								tr.append(sep);
+								table.append(tr);
+
+								$.each(hash, function (n, v) {
+									if (v !== null) {
+
+										tr = $(document.createElement("tr"));
+										tr.append($(document.createElement("td")).text(n));
+										tr.append($(document.createElement("td")).text(v));
+										table.append(tr);
+									}
+								});
+							});
+
+						} else {
+							tr = $(document.createElement("tr"));
+							tr.append($(document.createElement("td")).text(name));
+							tr.append($(document.createElement("td")).text(value));
+							table.append(tr);
+						}
+					}
+				});
+			}
+		});
+
 		openPopup("#popupInfo");
 	});
 

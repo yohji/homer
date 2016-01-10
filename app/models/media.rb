@@ -27,7 +27,7 @@ class Media
 				vid[:framerate] = "#{data["frame_rate"]} #{data["frame_rate_mode"]}"
 				vid[:streamize] = data["stream_size"]
 				
-				if (@video == nil)
+				if (@video.nil?)
 					@video = Array.new
 				end
 				
@@ -39,7 +39,7 @@ class Media
 				aud = Hash.new
 				
 				format = data["format_info"]
-				if (format == nil)
+				if (format.nil?)
 					format = data["format_profile"]
 				end
 				
@@ -49,7 +49,7 @@ class Media
 				aud[:samplingrate] = data["sampling_rate"]
 				aud[:streamize] = data["stream_size"]
 				
-				if (@audio == nil)
+				if (@audio.nil?)
 					@audio = Array.new
 				end
 				
@@ -66,7 +66,7 @@ class Media
 				img[:bitdepth] = data["bit_depth"]
 				img[:streamize] = data["stream_size"]
 				
-				if (@image == nil)
+				if (@image.nil?)
 					@image = Array.new
 				end
 				

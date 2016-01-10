@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 	# Navigation
 	get 'filesystem'    => 'filesystem#show'
 	get 'back'          => 'filesystem#back'
+	get 'tree'          => 'filesystem#tree'
 	get 'transmission'  => 'transmission#show'
 	
 	# Operations

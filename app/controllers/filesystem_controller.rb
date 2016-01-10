@@ -22,7 +22,7 @@ class FilesystemController < ApplicationController
 		path_raw = params[:path]
 		check_access(path_raw, @route)
 		
-		if (path_raw == nil)
+		if (path_raw.nil?)
 			@path = nav_current(@route)
 		else
 			@path = nav_select(@route, path_raw)
@@ -94,11 +94,22 @@ class FilesystemController < ApplicationController
 		render json: @info
 	end
 	
+	def tree
+		
+		@tree = [
+			fs_tree_dir(APP_CONFIG["locations"]["movie"]),
+			fs_tree_dir(APP_CONFIG["locations"]["music"]),
+			fs_tree_dir(APP_CONFIG["locations"]["iso"]),
+		]
+		
+		render json: @tree
+	end
+	
 	private
 
 	def check_access(path, route)
 		
-		if (path != nil && ! path.start_with?(nav_root(route).absolute))
+		if (! path.nil? && ! path.start_with?(nav_root(route).absolute))
 			raise "Illegal access"
 		end
 	end

@@ -1,12 +1,12 @@
 <%
 is_root = (nav_breadcrumb(@route).size == 1)
 @autodiv = ! is_root ? false : @autodiv
-curr = nav_current(@route)
+curr = nav_current(@route) if (! is_root)
 %>
 
 <form name="panelParams">
-	<input type="hidden" name="name" value="<%= curr.name %>" />
-	<input type="hidden" name="path" value="<%= curr.absolute %>" />
+	<input type="hidden" name="name" value="<%= (! curr.nil?) ? curr.name : "" %>" />
+	<input type="hidden" name="path" value="<%= (! curr.nil?) ? curr.absolute : "" %>" />
 	<input type="hidden" name="route" value="<%= @route %>" />
 </form>
 
@@ -49,14 +49,8 @@ curr = nav_current(@route)
             <input type="hidden" name="path" />
             <input type="hidden" name="route" />
 			<h3 class="ui-title"></h3>
-            <fieldset data-role="controlgroup">
-                <input type="radio" id="radio-movie" name="location" value="movie" checked="checked">
-                <label for="radio-movie">Movie</label>
-                <input type="radio" id="radio-music" name="location" value="music">
-                <label for="radio-music">Music</label>
-                <input type="radio" id="radio-iso" name="location" value="iso">
-                <label for="radio-iso">Iso</label>
-            </fieldset>
+			<input type="hidden" name="location" />
+            <ul data-role="listview" data-inset=true" class="ui-listview-outer" id="popupMoveTree"></ul>
             <div class="ui-input-btn ui-btn ui-corner-all">
                 <input type="submit" value="Ok" />
             </div>
