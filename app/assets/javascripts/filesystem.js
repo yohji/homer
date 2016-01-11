@@ -22,12 +22,15 @@ function openPopup(id) {
 	$(id).popup("open");
 }
 
-function buildTree(tree, elem) {
+var buildTree = tco(function(tree, elem) {
 
 	a = $(document.createElement("a"))
 			.text(elem.name)
 			.attr("data-path", elem.path)
 			.attr("class", "choosePopupMove");
+		
+	if (elem.path === "-")
+	    a.attr("class", "disabled");
 
 	if (elem.child !== null && elem.child.length > 0) {
 
@@ -54,7 +57,7 @@ function buildTree(tree, elem) {
 
 	} else
 		tree.append($(document.createElement("li")).append(a));
-}
+});
 
 $(document).on("pagecreate", function () {
 
@@ -63,9 +66,10 @@ $(document).on("pagecreate", function () {
 		params = readPanelParams();
 
 		pop = $.mobile.activePage.find("#popupMoveContent");
-		pop.find("h3").text(params[0]);
+		pop.find("#popupMoveName").text(params[0]);
 		pop.find("input[name='path']").val(params[1]);
 		pop.find("input[name='route']").val(params[2]);
+		pop.find("#popupMoveLocation").text("");
 
 		$.ajax({
 			type: "GET",
@@ -75,19 +79,17 @@ $(document).on("pagecreate", function () {
 
 				tree = $.mobile.activePage.find("#popupMoveTree");
 				tree.empty();
-
-				$.each(data, function (idx, elem) {
-
-					buildTree(tree, elem);
-				});
-
+				
+				buildTree(tree, data);
 				$("#popupMove").trigger("create");
 
 				$(".choosePopupMove").click(function () {
+				    
+					name = $(this).text();
+					path = $(this).data("path");
 
-					pop = $.mobile.activePage.find("#popupMoveContent");
-					pop.find("input[name='location']")
-							.val($(this).data("path"));
+					pop.find("#popupMoveLocation").text(name);
+					pop.find("input[name='location']").val(path);
 				});
 
 				openPopup("#popupMove");

@@ -96,7 +96,8 @@ class FilesystemController < ApplicationController
 	
 	def tree
 		
-		@tree = [
+		@tree = {:name => "locations", :path => "-"}
+		@tree[:child] = [
 			fs_tree_dir(APP_CONFIG["locations"]["movie"]),
 			fs_tree_dir(APP_CONFIG["locations"]["music"]),
 			fs_tree_dir(APP_CONFIG["locations"]["iso"]),

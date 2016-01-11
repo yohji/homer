@@ -31,7 +31,7 @@ module FilesystemHelper
 	
 	def fs_move(path, location)
 		
-		FileUtils.mv(path, APP_CONFIG["locations"][location])
+		FileUtils.mv(path, location)
 	end
 	
 	def fs_tree_dir(path)

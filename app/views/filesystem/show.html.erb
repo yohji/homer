@@ -48,9 +48,10 @@ curr = nav_current(@route) if (! is_root)
         <form action="/move" method="post">
             <input type="hidden" name="path" />
             <input type="hidden" name="route" />
-			<h3 class="ui-title"></h3>
+			<h3 id="popupMoveName" class="ui-title"></h3>
 			<input type="hidden" name="location" />
             <ul data-role="listview" data-inset=true" class="ui-listview-outer" id="popupMoveTree"></ul>
+	    <h3 id="popupMoveLocation" class="ui-title"></h3>
             <div class="ui-input-btn ui-btn ui-corner-all">
                 <input type="submit" value="Ok" />
             </div>
