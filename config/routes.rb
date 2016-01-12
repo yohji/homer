@@ -3,10 +3,10 @@ Rails.application.routes.draw do
 	root 'filesystem#home'
 
 	# Navigation
-	get 'filesystem'    => 'filesystem#show'
-	get 'back'          => 'filesystem#back'
-	get 'tree'          => 'filesystem#tree'
-	get 'transmission'  => 'transmission#show'
+	get 'filesystem'      => 'filesystem#show'
+	get 'back'            => 'filesystem#back'
+	get 'tree'            => 'filesystem#tree'
+	get 'operativesystem' => 'operativesystem#show'
 	
 	# Operations
 	post 'delete' => 'filesystem#delete'

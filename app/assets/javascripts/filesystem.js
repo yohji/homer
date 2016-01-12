@@ -22,10 +22,11 @@ function openPopup(id) {
 	$(id).popup("open");
 }
 
-var buildTree = tco(function(tree, elem) {
+function buildTree(tree, elem) {
 
-	a = $(document.createElement("a"))
+	var a = $(document.createElement("a"))
 			.text(elem.name)
+			.attr("href", "#")
 			.attr("data-path", elem.path)
 			.attr("class", "choosePopupMove");
 		
@@ -34,7 +35,7 @@ var buildTree = tco(function(tree, elem) {
 
 	if (elem.child !== null && elem.child.length > 0) {
 
-		li = $(document.createElement("li"))
+		var li = $(document.createElement("li"))
 				.attr("data-role", "collapsible")
 				.attr("data-iconpos", "right")
 				.attr("data-shadow", "false")
@@ -43,7 +44,7 @@ var buildTree = tco(function(tree, elem) {
 		tree.append(li);
 		li.append($(document.createElement("h2")).append(a));
 
-		ul = $(document.createElement("ul"))
+		var ul = $(document.createElement("ul"))
 				.attr("data-role", "listview")
 				.attr("data-inset", "true")
 				.attr("data-shadow", "false")
@@ -57,7 +58,7 @@ var buildTree = tco(function(tree, elem) {
 
 	} else
 		tree.append($(document.createElement("li")).append(a));
-});
+}
 
 $(document).on("pagecreate", function () {
 
