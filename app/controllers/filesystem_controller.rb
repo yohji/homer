@@ -5,7 +5,7 @@ class FilesystemController < ApplicationController
 	
 	def home
 		
-		redirect_to(action: :show, route: ROUTE_DOWNLOAD)
+		redirect_to(action: :show, route: Route::DOWNLOAD)
 	end
 	
 	def show
@@ -14,7 +14,7 @@ class FilesystemController < ApplicationController
 		@filter = true
 		
 		@route = params[:route]
-		if (@route == ROUTE_DOWNLOAD)
+		if (@route == Route::DOWNLOAD)
 			@autodiv = false
 			@filter = false
 		end
@@ -28,7 +28,7 @@ class FilesystemController < ApplicationController
 			@path = nav_select(@route, path_raw)
 		end
 		
-		@data = fs_resources(@path.absolute)
+		@data = fs_resources(@path.absolute, @route)
 	end
 	
 	def back
@@ -98,9 +98,9 @@ class FilesystemController < ApplicationController
 		
 		@tree = {:name => "locations", :path => "-"}
 		@tree[:child] = [
-			fs_tree_dir(APP_CONFIG["locations"]["movie"]),
-			fs_tree_dir(APP_CONFIG["locations"]["music"]),
-			fs_tree_dir(APP_CONFIG["locations"]["iso"]),
+			fs_tree_dir(APP_CONFIG["locations"][Route::MOVIE]),
+			fs_tree_dir(APP_CONFIG["locations"][Route::MUSIC]),
+			fs_tree_dir(APP_CONFIG["locations"][Route::ISO]),
 		]
 		
 		render json: @tree

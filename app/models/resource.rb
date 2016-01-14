@@ -1,12 +1,13 @@
 class Resource
 	
-	attr_accessor :absolute, :name, :size
+	attr_accessor :absolute, :name, :size, :date
 
 	def initialize(path, name = nil)
 		
 		@absolute = path
 		@name = name
-		@size = stat.size
+		@size = directory? ? -1 : stat.size
+		@date = stat.ctime
 		
 		if (@name.nil?)
 			@name = File.basename(@absolute)
@@ -16,11 +17,6 @@ class Resource
 	def == other
 		
 		@absolute == other.absolute
-	end
-	
-	def <=> other
-		
-		@absolute <=> other.absolute
 	end
 	
 	def directory?

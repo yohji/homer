@@ -1,17 +1,19 @@
 module NavigationHelper
 	
-	ROUTE_DOWNLOAD = "download"
-	ROUTE_MOVIE = "movie"
-	ROUTE_MUSIC = "music"
-	ROUTE_ISO = "iso"
-	
 	def nav_setup
 		
 		nav = Hash.new
-		nav[ROUTE_DOWNLOAD] = [Resource.new(APP_CONFIG["locations"][ROUTE_DOWNLOAD], "/")]
-		nav[ROUTE_MOVIE] = [Resource.new(APP_CONFIG["locations"][ROUTE_MOVIE], "/")]
-		nav[ROUTE_MUSIC] = [Resource.new(APP_CONFIG["locations"][ROUTE_MUSIC], "/")]
-		nav[ROUTE_ISO] = [Resource.new(APP_CONFIG["locations"][ROUTE_ISO], "/")]
+		nav[Route::DOWNLOAD] = 
+		  [Resource.new(APP_CONFIG["locations"][Route::DOWNLOAD], "/")]
+		
+		nav[Route::MOVIE] = 
+		  [Resource.new(APP_CONFIG["locations"][Route::MOVIE], "/")]
+		
+		nav[Route::MUSIC] = 
+		  [Resource.new(APP_CONFIG["locations"][Route::MUSIC], "/")]
+		
+		nav[Route::ISO] = 
+		  [Resource.new(APP_CONFIG["locations"][Route::ISO], "/")]
 		
 		session[:navigation] = nav
 	end

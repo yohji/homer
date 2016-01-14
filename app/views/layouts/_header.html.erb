@@ -4,16 +4,16 @@
 	<div data-role="navbar">
 		<ul>
 			<li>
-				<a href="/filesystem?route=download" data-transition="fade" data-icon="bullets"></a>
+				<a href="/filesystem?route=<%= Route::DOWNLOAD %>" data-transition="fade" data-icon="bullets"></a>
 			</li>
 			<li>
-				<a href="/filesystem?route=movie" data-transition="fade" data-icon="video"></a>
+				<a href="/filesystem?route=<%= Route::MOVIE %>" data-transition="fade" data-icon="video"></a>
 			</li>
 			<li>
-				<a href="/filesystem?route=music" data-transition="fade" data-icon="audio"></a>
+				<a href="/filesystem?route=<%= Route::MUSIC %>" data-transition="fade" data-icon="audio"></a>
 			</li>
 			<li>
-				<a href="/filesystem?route=iso" data-transition="fade" data-icon="calendar"></a>
+				<a href="/filesystem?route=<%= Route::ISO %>" data-transition="fade" data-icon="calendar"></a>
 			</li>
 			<li>
 				<a href="/operativesystem" data-transition="fade" data-icon="gear"></a>

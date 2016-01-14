@@ -1,16 +1,59 @@
 require 'fileutils'
 
 module FilesystemHelper
+	
+	def fs_setup
+		
+		sort = Hash.new
+		
+		sort[Route::DOWNLOAD] = Sort::NAME
+		sort[Route::MOVIE] = Sort::NAME
+		sort[Route::MUSIC] = Sort::NAME
+		sort[Route::ISO] = Sort::NAME
+		
+		session[:sort] = sort
+	end
+	
+	def fs_clear
+		
+		session.delete(:sort)
+	end
+	
+	def fs_sort(route, sort)
+		
+		session[:sort][route] = sort
+	end
 
-	def fs_resources(path, ext = "")
+	def fs_resources(path, route)
 
 		resources = []
-
-		Dir.glob(path + "/*" + ext) do |f|
+		Dir.glob(path + "/*") do |f|
 			resources.push(Resource.new(f))
 		end
 		
-		return resources.sort
+		sort = session[:sort][route]
+		if (sort == Sort::NAME)
+			
+			resources.sort! do |x, y| 
+				x.absolute.downcase <=> y.absolute.downcase
+			end
+			
+		elsif (sort == Sort::SIZE)
+		
+			resources.sort! do |x, y| 
+				x.size <=> y.size
+			end
+			resources.reverse!
+			
+		elsif (sort == Sort::DATE)
+		
+			resources.sort! do |x, y| 
+				x.date <=> y.date
+			end
+			resources.reverse!
+		end
+		
+		return resources
 	end
 	
 	def fs_expand(path)
