@@ -1,3 +1,10 @@
+.breadcrumb{
+    width:97%;
+    height:38px;
+    border:none;
+    position:relative;
+}
+
 /* Basic settings */
 .ui-li-static.ui-collapsible {
     padding: 0;

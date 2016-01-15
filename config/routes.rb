@@ -9,10 +9,12 @@ Rails.application.routes.draw do
 	get 'operativesystem' => 'operativesystem#show'
 	
 	# Operations
-	post 'delete' => 'filesystem#delete'
-	post 'rename' => 'filesystem#rename'
-	post 'move'   => 'filesystem#move'
-	get  'info'   => 'filesystem#info'
+	get  'sort'    => 'filesystem#sort'
+	post 'makedir' => 'filesystem#makedir'
+	post 'delete'  => 'filesystem#delete'
+	post 'rename'  => 'filesystem#rename'
+	post 'move'    => 'filesystem#move'
+	get  'info'    => 'filesystem#info'
 
 	# Session
 	get  'login'  => 'sessions#show'

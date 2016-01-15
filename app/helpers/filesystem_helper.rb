@@ -19,11 +19,16 @@ module FilesystemHelper
 		session.delete(:sort)
 	end
 	
-	def fs_sort(route, sort)
+	def fs_set_sort(route, sort)
 		
 		session[:sort][route] = sort
 	end
-
+	
+	def fs_get_sort(route)
+		
+		session[:sort][route]
+	end
+	
 	def fs_resources(path, route)
 
 		resources = []
@@ -31,7 +36,7 @@ module FilesystemHelper
 			resources.push(Resource.new(f))
 		end
 		
-		sort = session[:sort][route]
+		sort = fs_get_sort(route)
 		if (sort == Sort::NAME)
 			
 			resources.sort! do |x, y| 
@@ -75,6 +80,11 @@ module FilesystemHelper
 	def fs_move(path, location)
 		
 		FileUtils.mv(path, location)
+	end
+	
+	def fs_makedir(path)
+		
+		Dir.mkdir(path);
 	end
 	
 	def fs_tree_dir(path)

@@ -31,6 +31,14 @@ class FilesystemController < ApplicationController
 		@data = fs_resources(@path.absolute, @route)
 	end
 	
+	def sort
+		
+		route = params[:route]
+		fs_set_sort(route, params[:sort])
+		
+		redirect_to(action: :show, route: route)
+	end
+	
 	def back
 		
 		route = params[:route]
@@ -92,6 +100,14 @@ class FilesystemController < ApplicationController
 		@info = Media.new(Mediainfo.new(path))
 		
 		render json: @info
+	end
+	
+	def makedir
+		
+		route = params[:route]
+		fs_makedir("#{nav_current(route).absolute}/#{params[:name]}")
+		
+		redirect_to(action: :show, route: route)
 	end
 	
 	def tree

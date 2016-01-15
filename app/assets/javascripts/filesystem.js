@@ -1,13 +1,13 @@
 function writePanelParams(name, path) {
 
-	form = $.mobile.activePage.find("form[name='panelParams']");
+	var form = $.mobile.activePage.find("form[name='panelParams']");
 	form.find("input[name='name']").val(name);
 	form.find("input[name='path']").val(path);
 }
 
 function readPanelParams() {
 
-	form = $.mobile.activePage.find("form[name='panelParams']");
+	var form = $.mobile.activePage.find("form[name='panelParams']");
 	name = form.find("input[name='name']").val();
 	path = form.find("input[name='path']").val();
 	route = form.find("input[name='route']").val();
@@ -61,12 +61,12 @@ function buildTree(tree, elem) {
 }
 
 $(document).on("pagecreate", function () {
-
+	
 	$(".openPopupMove").click(function () {
 
-		params = readPanelParams();
+		var params = readPanelParams();
 
-		pop = $.mobile.activePage.find("#popupMoveContent");
+		var pop = $.mobile.activePage.find("#popupMoveContent");
 		pop.find("#popupMoveName").text(params[0]);
 		pop.find("input[name='path']").val(params[1]);
 		pop.find("input[name='route']").val(params[2]);
@@ -78,7 +78,7 @@ $(document).on("pagecreate", function () {
 			dataType: "json",
 			success: function (data) {
 
-				tree = $.mobile.activePage.find("#popupMoveTree");
+				var tree = $.mobile.activePage.find("#popupMoveTree");
 				tree.empty();
 				
 				buildTree(tree, data);
@@ -86,8 +86,8 @@ $(document).on("pagecreate", function () {
 
 				$(".choosePopupMove").click(function () {
 				    
-					name = $(this).text();
-					path = $(this).data("path");
+					var name = $(this).text();
+					var path = $(this).data("path");
 
 					pop.find("#popupMoveLocation").text(name);
 					pop.find("input[name='location']").val(path);
@@ -100,9 +100,9 @@ $(document).on("pagecreate", function () {
 
 	$(".openPopupRename").click(function () {
 
-		params = readPanelParams();
+		var params = readPanelParams();
 
-		pop = $.mobile.activePage.find("#popupRenameContent");
+		var pop = $.mobile.activePage.find("#popupRenameContent");
 		pop.find("input[name='name']").val(params[0]);
 		pop.find("input[name='path']").val(params[1]);
 		pop.find("input[name='route']").val(params[2]);
@@ -112,9 +112,9 @@ $(document).on("pagecreate", function () {
 
 	$(".openPopupDelete").click(function () {
 
-		params = readPanelParams();
+		var params = readPanelParams();
 
-		pop = $.mobile.activePage.find("#popupDeleteContent");
+		var pop = $.mobile.activePage.find("#popupDeleteContent");
 		pop.find("h3").text(params[0]);
 		pop.find("input[name='path']").val(params[1]);
 		pop.find("input[name='route']").val(params[2]);
@@ -124,7 +124,7 @@ $(document).on("pagecreate", function () {
 
 	$(".openPopupInfo").click(function () {
 
-		params = readPanelParams();
+		var params = readPanelParams();
 
 		$.ajax({
 			type: "GET",
@@ -132,10 +132,10 @@ $(document).on("pagecreate", function () {
 			dataType: "json",
 			success: function (data) {
 
-				pop = $.mobile.activePage.find("#popupInfoContent");
+				var pop = $.mobile.activePage.find("#popupInfoContent");
 				pop.empty();
 
-				table = $(document.createElement("table"));
+				var table = $(document.createElement("table"));
 				pop.append(table);
 
 				$.each(data, function (name, value) {
@@ -144,8 +144,8 @@ $(document).on("pagecreate", function () {
 						if (name === "audio" || name === "video" || name === "image") {
 							$.each(value, function (idx, hash) {
 
-								tr = $(document.createElement("tr"));
-								sep = $(document.createElement("td"))
+								var tr = $(document.createElement("tr"));
+								var sep = $(document.createElement("td"))
 										.attr("colspan", "2")
 										.attr("style", "padding-top: 15px;")
 										.text(name.toUpperCase() + " #" + idx);
@@ -156,7 +156,7 @@ $(document).on("pagecreate", function () {
 								$.each(hash, function (n, v) {
 									if (v !== null) {
 
-										tr = $(document.createElement("tr"));
+										var tr = $(document.createElement("tr"));
 										tr.append($(document.createElement("td")).text(n));
 										tr.append($(document.createElement("td")).text(v));
 										table.append(tr);
@@ -165,7 +165,7 @@ $(document).on("pagecreate", function () {
 							});
 
 						} else {
-							tr = $(document.createElement("tr"));
+							var tr = $(document.createElement("tr"));
 							tr.append($(document.createElement("td")).text(name));
 							tr.append($(document.createElement("td")).text(value));
 							table.append(tr);
@@ -177,6 +177,16 @@ $(document).on("pagecreate", function () {
 
 		openPopup("#popupInfo");
 	});
+	
+	$(".openPopupMakedir").click(function () {
+
+		var params = readPanelParams();
+
+		var pop = $.mobile.activePage.find("#popupMakedirContent");
+		pop.find("input[name='route']").val(params[2]);
+
+		openPopup("#popupMakedir");
+	});
 
 	$(".openPanel").click(function () {
 
@@ -184,7 +194,7 @@ $(document).on("pagecreate", function () {
 				$(this).data("name"),
 				$(this).data("path"));
 
-		pan = $.mobile.activePage.find("#panelActionFile");
+		var pan = $.mobile.activePage.find("#panelActionFile");
 		pan.trigger("updatelayout");
 		pan.panel("open");
 	});
