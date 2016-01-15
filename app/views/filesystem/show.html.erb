@@ -1,8 +1,10 @@
 <%
 is_root = (nav_breadcrumb(@route).size == 1)
-@autodiv = ! is_root ? false : @autodiv
+@autodiv = false if ! is_root
 curr = nav_current(@route) if (! is_root)
+
 sort = fs_get_sort(@route)
+@autodiv = false if (sort != Sort::NAME)
 %>
 
 <form name="panelParams">
