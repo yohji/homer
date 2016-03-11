@@ -1,0 +1,10 @@
+<div class="ui-body ui-body-a ui-corner-all" style="white-space: pre-wrap;">
+	<h3><%= simple_format(`uname -a`) %></h3>
+	<p><%= simple_format(`w`) %></p>
+	<h3>Memory</h3>
+	<p><%= simple_format(`free -m`) %></p>
+	<h3>Disk</h3>
+	<p><%= simple_format(`df -h`) %></p>
+	<h3>Network</h3>
+	<p><%= simple_format(`vnstat`) %></p>
+</div>
