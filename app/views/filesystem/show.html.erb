@@ -19,10 +19,10 @@ sort = fs_get_sort(@route)
 		<% 
 		if (! is_root) 
 		%>
-			<a <%= "href=/back?route=#{@route}" %> class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left">&nbsp;</a>
+			<a <%= "href=/back?route=#{@route}" %> class="ui-btn ui-btn-b ui-corner-all ui-icon-back ui-btn-icon-left" rel="external">&nbsp;</a>
 			<% nav_breadcrumb(@route).each do |bc| %>
 				<a <%= "href=/filesystem?route=#{@route}&path=#{CGI.escape(bc.absolute)}" %>
-					class="ui-btn ui-btn-b ui-corner-all <%= bc == curr ? 'disabled' : '' %>"><%= bc.name %></a>
+					class="ui-btn ui-btn-b ui-corner-all <%= bc == curr ? 'disabled' : '' %>" rel="external"><%= bc.name %></a>
 				<% end %>
 			<a href="#" class="openPopupMove ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-arrow-r">&nbsp;</a>
 			<a href="#" class="openPopupRename ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-recycle">&nbsp;</a>
@@ -31,18 +31,18 @@ sort = fs_get_sort(@route)
 		<% end %>
 		<a href="#" class="openPopupMakedir ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-icon-left ui-btn-b ui-icon-plus">&nbsp;</a>
 		<a <%= "href=/sort?route=#{@route}&sort=#{Sort::NAME}" %> 
-			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::NAME) ? "ui-btn-active" : "" %>">Name</a>
+			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::NAME) ? "ui-btn-active" : "" %>" rel="external">Name</a>
 		<a <%= "href=/sort?route=#{@route}&sort=#{Sort::SIZE}" %> 
-			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::SIZE) ? "ui-btn-active" : "" %>">Size</a>
+			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::SIZE) ? "ui-btn-active" : "" %>" rel="external">Size</a>
 		<a <%= "href=/sort?route=#{@route}&sort=#{Sort::DATE}" %> 
-			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::DATE) ? "ui-btn-active" : "" %>">Date</a>
+			class="ui-btn ui-btn-b ui-corner-all ui-btn-inline <%= (sort == Sort::DATE) ? "ui-btn-active" : "" %>" rel="external">Date</a>
 	</div><!-- /controlgroup -->
 
 	<% @data.each do |res| %>
 		<% is_dir = res.directory? %>
 		<li <%= is_dir ? "class=directory" : "data-icon=gear" %>>
-			<a <% if is_dir %>href="<%= "/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" %>">
-				<% else %>data-name="<%= res.name %>" data-path="<%= res.absolute %>" class="openPanel">
+			<a <% if is_dir %>href="<%= "/filesystem?route=#{@route}&path=#{CGI.escape(res.absolute)}" %>" rel="external">
+				<% else %>data-name="<%= res.name %>" data-path="<%= res.absolute %>" class="openPanel" rel="external">
 				<% end %>
 				<%= res.name %><% if ! is_dir %><span class="ui-li-count"><%= number_to_human_size(res.size) %></span><% end %>
 			</a>
