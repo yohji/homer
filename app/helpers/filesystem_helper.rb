@@ -30,9 +30,9 @@ module FilesystemHelper
 	end
 	
 	def fs_resources(path, route)
-
+		
 		resources = []
-		Dir.glob(path + "/*") do |f|
+		Dir.glob(Regexp.escape(path) + "/*") do |f|
 			resources.push(Resource.new(f))
 		end
 		
