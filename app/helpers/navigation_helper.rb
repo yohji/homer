@@ -21,6 +21,7 @@ module NavigationHelper
 	def nav_clear
 		
 		session.delete(:navigation)
+		session.delete(:movement)
 	end
 	
 	def nav_breadcrumb(route)
@@ -82,5 +83,10 @@ module NavigationHelper
 	def nav_root(route)
 		
 		nav_breadcrumb(route).first
+	end
+	
+	def nav_movement
+		
+		return session[:movement]
 	end
 end

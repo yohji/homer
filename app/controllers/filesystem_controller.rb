@@ -59,6 +59,15 @@ class FilesystemController < ApplicationController
 		
 		fs_move(path, loc)
 		
+		movs = session[:movement]
+		if movs.nil?
+			movs = Array.new
+			session[:movement] = movs
+		end
+		
+		movs.unshift(loc) if movs.index(loc).nil?
+		movs.pop if movs.length == 4
+		
 		redirect_to(action: :show, route: route)
 	end
 	

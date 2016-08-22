@@ -4,7 +4,13 @@
     </div>
     <a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
     <ul data-role="listview" data-inset="true" data-theme="a">
-        <li><a href="#" class="openPopupMove ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-arrow-r ui-btn-icon-left">Move</a></li>
+		<% nav_movement.nil? || nav_movement.each do |loc| 
+			name = File.basename(loc)
+		%>
+			<li><a href="#" onclick="openMovementPopup('<%= loc %>', '<%= name %>');"
+				class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-arrow-r ui-btn-icon-left">Move to <%= name %></a></li>
+		<% end %>
+        <li><a href="#" class="openPopupMove ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-arrow-r ui-btn-icon-left">Move to ...</a></li>
         <li><a href="#" class="openPopupRename ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-recycle ui-btn-icon-left">Rename</a></li>
         <li><a href="#" class="openPopupDelete ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left">Delete</a></li>
         <li><a href="#" class="openPopupInfo ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-info ui-btn-icon-left">Info</a></li>

@@ -70,6 +70,25 @@ sort = fs_get_sort(@route)
     </div>
 </div><!-- /popup -->
 
+<div data-role="popup" id="popupMoveFixed" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
+    <div data-role="header" data-theme="a">
+        <h1>Move</h1>
+    </div>
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+    <div role="main" class="ui-content" id="popupMoveFixedContent">
+        <form action="/move" method="post">
+            <input type="hidden" name="path" />
+            <input type="hidden" name="route" />
+			<h3 id="popupMoveName" class="ui-title"></h3>
+			<input type="hidden" name="location" />
+			<h3 id="popupMoveLocation" class="ui-title"></h3>
+            <div class="ui-input-btn ui-btn ui-corner-all">
+                <input type="submit" value="Ok" />
+            </div>
+        </form>
+    </div>
+</div><!-- /popup -->
+
 <div data-role="popup" id="popupRename" data-history="false" data-overlay-theme="b" data-theme="b" style="max-width:600px;">
     <div data-role="header" data-theme="a">
 		<h1>Rename</h1>

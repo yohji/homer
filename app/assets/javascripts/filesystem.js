@@ -22,6 +22,20 @@ function openPopup(id) {
 	$(id).popup("open");
 }
 
+function openMovementPopup(location, name) {
+	
+	var params = readPanelParams();
+	var pop = $.mobile.activePage.find("#popupMoveFixedContent");
+	
+	pop.find("#popupMoveName").text(params[0]);
+	pop.find("input[name='path']").val(params[1]);
+	pop.find("input[name='route']").val(params[2]);
+	pop.find("input[name='location']").val(location);
+	pop.find("#popupMoveLocation").text(name);
+	
+	openPopup("#popupMoveFixed");
+}
+
 function buildTree(tree, elem) {
 
 	var a = $(document.createElement("a"))
